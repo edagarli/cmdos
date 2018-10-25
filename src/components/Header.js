@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import recognizeSpeech from 'recognize-speech'
+import emitter from "./ev"
 
 import {
   Container,
 } from '../assets/style/ComponentStyle';
 
 import {
+  PrimaryColor,
   SecondaryColor,
   GrayColor,
   WhiteColor,
@@ -18,8 +21,6 @@ import {
 
 import {
   GithubAddress,
-  LinkedinAddress,
-  InstagramAddress
 } from '../assets/static/TerminalConfig';
 
 const HeadContainer = styled(Container)`
@@ -62,7 +63,7 @@ const DrawerButton = styled.button`
 const Menu = styled.div`
   display: flex;
   width: 50%;
-  background-color: ${SecondaryColor};
+  background-color: ${PrimaryColor};
   @media (max-width: ${Medium}) {
     display: none;
   }
@@ -96,36 +97,80 @@ const TabLink = styled.a`
   }
 `;
 
-const Header = (prop) => (
-  <HeadContainer>
-    <Title>MLi.</Title>
-    <DrawerButtonContainer>
-      <DrawerButton onClick={prop.onClick}>
-        <i className="fas fa-bars"></i>
-      </DrawerButton>
-    </DrawerButtonContainer>
-    <Menu>
-      <Spacer />
-      <Tabs>
-        <Tab>
-          <TabLink href={GithubAddress} target="_blank">
-            <i className="fab fa-github" />
-          </TabLink>
-        </Tab>
-        <Tab>
-          <TabLink href={LinkedinAddress} target="_blank">
-            <i className="fab fa-linkedin" />
-          </TabLink>
-        </Tab>
-        <Tab>
-          <TabLink href={InstagramAddress} target="_blank">
-          <i className="fab fa-instagram" />
-          </TabLink>
-        </Tab>
-      </Tabs>
-    </Menu>
-  </HeadContainer>
-);
+class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    recognizeSpeech({ lang: 'en-US' , interimResults: true,  maxAlternatives: 1})
+      .then(res => {
+        console.log("语音输入")
+        console.log(res.transcript)
+        this.setState(state => ({
+          text: res.transcript
+        }));
+        // 触发自定义事件
+        emitter.emit("callMe", this.state.text)
+      });
+  }
+
+  //tick = () => {
+  //  if(this.state.text.length === 0) {
+  //    recognizeSpeech({ lang: 'en-US' , interimResults: true,  maxAlternatives: 1})
+  //      .then(res => {
+  //        console.log(res.transcript)
+  //        this.setState(state => ({
+  //          text: res.transcript
+  //        }));
+  //        // 触发自定义事件
+  //        emitter.emit("callMe", this.state.text)
+  //      });
+  //  }
+  //}
+
+  componentWillUnmount() {
+    //clearInterval(this.interval);
+  }
+
+  componentDidMount() {
+    //this.interval = setInterval(() => this.tick(), 10000);
+  }
+
+  render() {
+    return (
+      <HeadContainer>
+        <Title>CMD-OS</Title>
+        <DrawerButtonContainer>
+          <DrawerButton>
+            <i className="fas fa-bars"></i>
+          </DrawerButton>
+        </DrawerButtonContainer>
+        <Menu>
+          <Spacer />
+          <Tabs>
+            <Tab>
+              <TabLink>
+                <i>你的语音指令:{this.state.text}</i>
+              </TabLink>
+              &nbsp;
+              <TabLink onClick={this.handleClick}>
+                <i class="fas fa-microphone-alt"></i>
+              </TabLink>
+            </Tab>
+            <Tab>
+              <TabLink href={GithubAddress} target="_blank">
+                <i class="fab fa-connectdevelop"></i>
+              </TabLink>
+            </Tab>
+          </Tabs>
+        </Menu>
+      </HeadContainer>
+    );
+  }
+};
 
 export default Header;
 

@@ -1,5 +1,5 @@
 import Terminal from '../Terminal';
-import { GithubAddress, LinkedinAddress, Mail } from '../../assets/static/TerminalConfig';
+import { GithubAddress, Mail } from '../../assets/static/TerminalConfig';
 
 function clearTerminal(input) {
   input.simulate('change', {target: {value: 'clear'}});
@@ -157,7 +157,6 @@ describe('<Terminal />', () => {
     expect((firstLi.find('Line').props())['children'][1]).toEqual('linkedin');
     expect((secondLi.find('Line').props())['children']).toContain("Linkedin page");
     expect(link.length).toEqual(1);
-    expect(link.text()).toEqual(LinkedinAddress);
 
 
 

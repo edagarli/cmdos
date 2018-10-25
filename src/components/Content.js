@@ -16,7 +16,6 @@ const ContentContainer = styled(Container)`
 const Content = () => (
     <ContentContainer>
       <Terminal />
-      <AsciiArt />
     </ContentContainer>
 );
 

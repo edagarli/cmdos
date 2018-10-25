@@ -13,8 +13,6 @@ import {
 
 import {
   GithubAddress,
-  LinkedinAddress,
-  InstagramAddress
 } from '../assets/static/TerminalConfig';
 
 const Menu = styled.div`
@@ -105,17 +103,7 @@ class Drawer extends Component {
           </Tab>
           <Tab>
             <TabLink href={GithubAddress} target="_blank">
-              <i className="fab fa-github" />
-            </TabLink>
-          </Tab>
-          <Tab>
-            <TabLink href={LinkedinAddress} target="_blank">
-              <i className="fab fa-linkedin" />
-            </TabLink>
-          </Tab>
-          <Tab>
-            <TabLink href={InstagramAddress} target="_blank">
-            <i className="fab fa-instagram" />
+              <i className="fab fa-connectdevelop" />
             </TabLink>
           </Tab>
         </Tabs>
