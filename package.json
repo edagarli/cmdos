@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.2",
-    "ajv": "^6.5.3",
+    "ajv": "^6.12.3",
     "axios": "^0.18.0",
     "cowsay-browser": "^1.1.8",
     "events": "^3.0.0",
